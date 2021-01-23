@@ -1,0 +1,106 @@
+<template>
+	<view class="page">
+		<view class="header">
+			<view></view>
+			<view class="content">
+				<view class="content-item"  :class="{activeItem:active == '1'}"  @click.stop="tabClick(1)">
+					同城
+				</view>
+				<view class="content-item"  :class="{activeItem:active == '2'}"  @click.stop="tabClick(2)">
+					推荐
+				</view>
+			</view>
+			<view class="iccon iconfont icon-icon-1" style="color: #212121;"></view>
+		</view>
+		<transition mode="out-in">
+			<component :is="comName"  :style="{height: (phoneHeight)  + 'px',overflow:'hidden' }"></component>
+		</transition>
+	</view>
+</template>
+
+<script>
+	// import sameCity from './components/sameCity.vue'
+	import recomMent from './components/recommend.nvue'
+	export default{
+		components:{
+			// sameCity,
+			recomMent
+		},
+		data(){
+			return{
+				active: "1",
+				comName:"sameCity",
+				phoneHeight:0
+			}
+		},
+		onShow() {
+			this.getHeight()
+		},
+		methods:{
+			getHeight() {
+				const _this = this;
+				uni.getSystemInfo({
+					success(res) {
+						_this.phoneHeight = res.windowHeight;
+					}
+				});
+			},
+			tabClick(i) {
+				this.active = i;
+				if (i == '1') {
+					this.comName = "sameCity"
+				} else {
+					this.comName = "recomMent"
+				}
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.page{
+		width: 100%;
+		overflow: hidden;
+	}
+	.header{
+		position: absolute;
+		z-index: 1;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+		padding: 0 20upx;
+		line-height: 100upx;
+		margin-top: 60upx;
+		font-size: 32upx;
+		color: #ebebeb;
+	}
+	.header .content{
+		display: flex;
+		flex-direction: row;
+	}
+	.activeItem{
+		font-size: 40upx!important;
+		color: #212121!important;
+	}
+	.content .content-item{
+		width: 100upx;
+		height: 100upx;
+	}
+	
+	
+	
+	
+	
+	/* vue动画 */
+	.v-enter,
+	.v-leave-to {
+		opacity: 0;
+		transform: translateX(750rpx);
+	}
+	
+	.v-enter-active,
+	.v-leave-active {
+		transition: all 0.5s ease;
+	}
+</style>

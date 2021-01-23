@@ -1,0 +1,298 @@
+.pages {
+	background-color: #fff;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+uni-page-body{
+	height: 100%;
+}
+.navBagColor {
+	background-image: linear-gradient(to right, #f16149, #fa8447);
+	width: 100%;
+	height: 400upx;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+
+.InviteFriends {
+	height: 162upx;
+	width: 100%;
+	padding: 30upx 30upx;
+	box-sizing: border-box;
+}
+
+.InviteFriendsBg {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	height: 90upx;
+	line-height: 90upx;
+	padding: 0 40upx;
+	background-image: linear-gradient(to right, #f6643d, #f36639);
+	color: #fff;
+	border-radius: 50upx;
+}
+
+.InviteFriendsBg>.text {
+	font-size: 28upx;
+}
+
+.InviteFriendsBg>.iconfont {
+	font-size: 36upx;
+}
+
+.list {
+	position: relative;
+	z-index: 100;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	height: 140upx;
+	margin-top: 50upx;
+	box-sizing: border-box;
+	border-bottom: 20upx solid #f3f6fd;
+}
+
+.list>.listItem {
+	width: 200upx;
+	text-align: center;
+}
+
+.list>.listItem>.iconfont {
+	font-size: 50upx;
+	color: #f47856;
+	padding-bottom: 10upx;
+}
+
+.list>.listItem>.text {
+	font-size: 27upx;
+}
+
+.navBox {
+	position: relative;
+	display: flex;
+	margin-top: 40upx;
+	justify-content: center;
+	width: 100%;
+	z-index: 100;
+}
+
+.navBox_wrap {
+	display: flex;
+	flex-direction: column;
+	width: 680upx;
+	height: 280upx;
+	margin-top: 20upx;
+	border-radius: 30upx;
+	background: #fff;
+	box-shadow: 1px 1px 1px #ccc, 1px -1px 1px #ccc, -1px 4px 4px #ccc, -1px -1px 1px #ccc;
+}
+
+.navBox_wrap>.navBox_wrap_tit {
+	width: 100%;
+	height: 100%;
+	margin-left: 200upx;
+	margin-top: 10upx;
+	color: #000000;
+	font-weight: bold;
+}
+
+.navBox_wrap_content {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 20upx;
+	text-align: center;
+	width: 100%;
+	margin-bottom: 20upx;
+}
+
+.navBox_wrap_item {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex: 1;
+	border-right: 1px solid #ccc;
+}
+
+.navBox_wrap_item:last-child {
+	border: none;
+}
+
+.navBox_wrap_item>.navBox_item_images {
+	position: relative;
+	width: 60upx;
+	height: 60upx;
+}
+
+.navBox_wrap_item>.navBox_item_images>image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	left: 30uox;
+}
+
+.navBox_wrap_item>.iconfont {
+	font-size: 40upx;
+	height: 60upx;
+}
+
+.navBox_wrap_item:last-child>.iconfont {
+	font-size: 80upx;
+	margin-left: 20upx;
+	margin-bottom: 20upx;
+}
+
+.navBox_wrap_item>.text {
+	margin-top: 30upx;
+	height: 36upx;
+	line-height: 22upx;
+	font-size: 24upx;
+	text-align: center;
+	padding: 6upx 20upx;
+	border-radius: 20upx;
+	box-sizing: border-box;
+	border: 1px solid #000000;
+}
+
+.content {
+	position: relative;
+	top: 0upx;
+	width: 100%;
+	height: 100%;
+	z-index: 110;
+}
+
+.logoImg {
+	position: absolute;
+	left: 80upx;
+	top: -40upx;
+	height: 120upx;
+	width: 120upx;
+	border-radius: 50%;
+	z-index: 110;
+}
+
+.logoImg>uni-image,
+.logoImg>uni-image>img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.register {
+	position: absolute;
+    top: 40upx;
+    right: 0px;
+    padding-left: 10upx;
+    height: 60upx;
+    line-height: 60upx;
+    width: 180upx;
+	border-radius: 50upx 0 0 50upx;
+	background-image: linear-gradient(to bottom, #ffad1d, #eba72f);
+	z-index: 110;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.register>.iconfont {
+	font-size: 30upx;
+	color: #FFFFFF;
+}
+
+.register>.text {
+	font-size: 23upx;
+	margin-left: 10upx;
+	color: #FFFFFF;
+}
+
+/* 用户ID弹出框 */
+.userID-model {
+	background: rgba(76, 76, 76, 0.49);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1200;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.userID-model>.UserID-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 90%;
+	height: 700upx;
+	background-color: #fff;
+	border-radius: 50upx;
+	padding-top: 20upx;
+	box-sizing: border-box;
+}
+
+.userID-model>.user-icon {
+	position: absolute;
+	top: 100upx;
+	right: 50upx;
+	width: 100upx;
+	height: 100upx;
+	line-height: 100upx;
+	text-align: center;
+	border-radius: 50%;
+	border: 1px solid #fff;
+	color: #fff;
+	background-color: rgba(90, 88, 89, 0.49);
+}
+
+
+/* 账号密码登录 */
+/* 微信颜色 */
+.bg-success {
+	color: #90df34;
+}
+
+/* QQ颜色 */
+.bg-primary {
+	color: #F0555C;
+}
+
+/* 微博颜色 */
+.icon-weibo {
+	color: #E71F19;
+}
+.getCode{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: 94%;
+	margin-bottom: 20upx;
+}
+.getCode>input{
+	flex: 1;
+	height: 40px;
+	border: 1px solid #D8D8D8;
+	border-radius: 5px;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+.getCode>.codeText{
+	flex: 1;
+	background-color: #f5f5f5;
+	color: #000;
+	line-height: 40px;
+	border-radius: 5px;
+	padding-left: 10px;
+	font-size: 30upx;
+}

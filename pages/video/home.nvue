@@ -1,0 +1,251 @@
+<template>
+	<view>
+		<view class="titleBox">
+			<view></view>
+			<view class="contentText">
+				<text style="color: #ccc;font-size: 32upx;margin-right: 20upx;" :style="{'color':itemActive =='1'?activeColor:'','fontSize': (itemActive =='1'?fontSize:'') + 'upx'}"
+				 @tap="toSmallVideo('attention','1')">同城</text>
+				<text style="color: #ccc;font-size: 32upx;" :style="{'color':itemActive =='2'?activeColor:'','fontSize': (itemActive =='2'?fontSize:'') + 'upx'}"
+				 @tap="toSmallVideo('video','2')">推荐</text>
+			</view>
+			<image class="titleImage" src="../../static/video/classify.png" @click="toList()"></image>
+		</view>
+		<div class="listBoxs" :class="['play_bottom']" v-if="pullList">
+			<div class="listItem" @tap="removeWaterImage()">
+				<image style="width: 40upx;height: 40upx;" src="../../static/video/water.png" mode="aspectFill"></image>
+				<text style="color: #fff;margin-left: 10upx;margin-left: 20upx;">去水印</text>
+			</div>
+			<div class="listItem" @tap="topublicVideo()">
+				<image style="width: 40upx;height: 40upx;" src="../../static/video/publishImage.png" mode="aspectFill"></image>
+				<text style="color: #fff;margin-left: 10upx;margin-left: 20upx;">上传</text>
+			</div>
+		</div>
+		<swiper class="position-relative flex-1" :style="{height: (phoneHeight-list)  + 'px',overflow:'hidden' }" :indicator-dots="false"
+		 :autoplay="false" :duration="300" :current-item-id="currentTabIndex" @change="onSwiperChange">
+			<swiper-item item-id="attention" :style="{height: (phoneHeight-55)  + 'px',overflow:'hidden' }" class="swiper-item">
+				<same-city :dataHidden='dataHidden' :style="{height: (phoneHeight-55)  + 'px',overflow:'hidden' }" v-if="tabSwitchs['attention']" class="swiper-item"></same-city>
+			</swiper-item>
+			<swiper-item class="swiper-item" item-id="video" :style="{height: phoneHeight  + 'px',overflow:'hidden' }">
+				<vertical-swiper :dataHidden='dataHidden' :stopData="stopData" :style="{height: phoneHeight  + 'px',overflow:'hidden' }" v-if="tabSwitchs['video']"></vertical-swiper>
+			</swiper-item>
+		</swiper>
+	</view>
+</template>
+<script>
+	import verticalSwiper from './vertical-swiper.nvue'
+	import sameCity from './videoIndex.nvue'
+	export default {
+		components: {
+			verticalSwiper,
+			sameCity
+		},
+		data() {
+			return {
+				tabSwitchs: {
+					attention: true
+				},
+				currentTabIndex: '',
+				itemActive: "1",
+				activeColor: "#212121",
+				fontSize: "46",
+				phoneHeight: 0,
+				stopData: true,
+				pullList: false,
+				sendData: {
+					mdlId: '-1'
+				},
+				list:55,
+				dataHidden: true
+			}
+		},
+		created() {
+			this.dataHidden = true;
+			this.getScreenHeight();
+			this.currentTabIndex = '0';
+		},
+		onHide() {
+			if( this.dataHidden ){
+				this.dataHidden = false
+			}else{
+				this.dataHidden = true
+			}
+		},
+		methods: {
+			topublicVideo() {
+				if( this.pullList ){
+					this.pullList = false;
+				}
+				uni.chooseVideo({
+					count: 1,
+					sourceType: ['album'],
+					compressed: true,
+					success: (res) => {
+						const videoDataLength = parseInt(res.size / 1000000);
+						if (videoDataLength > 15) {
+							uni.showToast({
+								title: '请重新选择视频上传',
+								icon: 'none'
+							})
+							return;
+						}
+						const _this = this;
+						let serverUrl = this.serverUrl
+						let videoFile = res.tempFilePath;
+						this.pullList = false;
+						uni.navigateTo({
+							url: "./countdown"
+						})
+						const uploadTask = uni.uploadFile({
+							url: serverUrl + '?action=uploadvideo',
+							filePath: videoFile,
+							name: 'file',
+							success: (res) => {
+								const data = JSON.parse(res.data);
+								const {
+									video
+								} = data;
+								uni.setStorageSync('videoWrap', video);
+								this.listShow = false;
+								uni.navigateTo({
+									url: './waterMark?noData=' + true + '&mdlId=' + this.sendData.mdlId + '&uploadVideoSign=' + '990'
+								})
+							}
+						})
+						uploadTask.onProgressUpdate((res) => {
+							_this.number = res.progress;
+							if (res.progress == 100) {
+								uni.showToast({
+									title: '上传完成,正在加载视频,请稍后',
+									icon: 'none'
+								})
+							}
+						});
+						_this.number = 0;
+					}
+				})
+			},
+			removeWaterImage() {
+				if( this.pullList ){
+					this.pullList = false;
+				}
+				uni.navigateTo({
+					url: './waterMark?mdlId=' + this.sendData.mdlId + '&uploadVideoSign=' + '991'
+				})
+			},
+			toList() {
+				this.pullList = !this.pullList;
+			},
+			onSwiperChange(e) {
+				const currentItemId = e.detail.currentItemId;
+				if (currentItemId == 'attention') {
+					this.itemActive = '1';
+					uni.showTabBar();
+					this.stopData = false;
+					this.sendData.mdlId = '-1';
+					this.list = 55;
+				} else {
+					this.sendData.mdlId = '-2';
+					this.itemActive = '2';
+					uni.hideTabBar();
+					this.stopData = true;
+					this.list = 0;
+				}
+				if (!this.tabSwitchs[currentItemId]) {
+					this.$set(this.tabSwitchs, currentItemId, true);
+				}
+			},
+			getScreenHeight() {
+				const _this = this;
+				uni.getSystemInfo({
+					success: function(res) {
+						_this.phoneHeight = res.screenHeight;
+					}
+				});
+			},
+			toSmallVideo(i, index) {
+				this.currentTabIndex = i;
+				if (currentItemId == 'attention') {
+					this.sendData.mdlId = '-1';
+				} else {
+					this.sendData.mdlId = '-2';
+				}
+				this.itemActive = index;
+			}
+		}
+	}
+</script>
+<style scoped>
+	.position-relative {
+		position: relative;
+	}
+
+	.swiper-item {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	.listBoxs {
+		position: fixed;
+		top: 150upx;
+		right: 0;
+		width: 240upx;
+		background-color: rgba(0, 0, 0, 0.5) !important;
+		z-index: 100;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 30upx;
+		border-bottom-left-radius: 30upx;
+	}
+
+	.listItem {
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		width: 100%;
+		height: 100upx;
+		margin-left: 40upx;
+	}
+
+
+	.itemClass {
+		color: #212121 !important;
+		font-size: 36upx !important;
+	}
+
+	.titleBox {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 750rpx;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		padding-top: 50upx;
+		height: 150upx;
+		background-color: #FFFFFF;
+		z-index: 20;
+	}
+
+	.titleImage {
+		position: absolute;
+		top: 80upx;
+		right: 10upx;
+		width: 50upx;
+		height: 50upx;
+	}
+
+	.contentText {
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.content {
+		position: fixed;
+		top: 150upx;
+		left: 0;
+	}
+</style>

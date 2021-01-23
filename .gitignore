@@ -1,0 +1,9 @@
+utils/pathSetting
+
+/unpackage/dist
+
+/unpackage/debug
+
+/unpackage/release
+
+/nativeplugins/mob-sharesdk/ios

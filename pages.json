@@ -1,0 +1,965 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue",
+		"custom-cover": "@/components/customCover/customCover.vue"
+	},
+	"pages": [{
+			"path": "pages/index/guide/index", //开屏动画
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/install",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		//爆料界面
+		{
+			"path": "pages/index/tipster/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/home",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+				// "titleImage": "static/openPage/logo_red.png",
+				// "navigationBarTextStyle": "white",
+				// "navigationBarTitleText": "商品管理",
+				// "navigationBarBackgroundColor": "#F5663C",
+				// "app-plus": {
+				// 	"scrollIndicator": "none", //隐藏滚动条
+				// 	//标题样式
+				// 	"titleNView": {
+				// 		"backgroundColor": "#FFFFFF",
+				// 		//配置按钮
+				// 		"buttons": [
+				// 			//右边
+				// 			{
+				// 				"color":"#000",
+				// 				"colorPressed": "#BBBBBB",
+				// 				"float": "right",
+				// 				"fontSize": "28px",
+				// 				"fontSrc": "/static/iconfont/iconfont.ttf",
+				// 				"text": "\ue613"
+				// 			}
+				// 		]
+				// 	}
+				// }
+				// "titleImage": "static/openPage/logo_red.png",
+				// "navigationBarShadow": {
+				// 	"colorType": "orange"
+				// },
+				// "enablePullDownRefresh": false,
+				// "app-plus": {
+				// 	"titleNView": {
+				// 		"backgroundColor": "#FFFFFF",
+				// 		"buttons": [{
+				// 			"fontSrc": "static/iconfont/iconfont.ttf",
+				// 			"type": "none",
+				// 			"color": "#303133",
+				// 			"text": "\ue61e"
+				// 		}]
+				// 	}
+				// }
+			}
+		},
+		{
+			"path": "pages/votePage/index", //投票界面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/Headlines", //头条专题页面
+			"style": {
+				"navigationBarTitleText": "澳門快訊",
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					//标题样式
+					"titleNView": {
+						"type": "transparent",
+						//配置按钮
+						"buttons": [{
+							"color": "#FF3000",
+							"colorPressed": "#BBBBBB",
+							"float": "right",
+							"fontSize": "50upx",
+							"background": "#ff3000",
+							"type": "share"
+						}]
+					}
+				}
+			}
+		},
+		//商家端模块
+		{
+			"path": "pages/storePage/index", //商家端首页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/ShoppingTown/index", //商家端-店铺设置
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/shopManage/index", //商家端-商品管理
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/storePage/page/shopRelease/index", //商家端-商品发布
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/shopDetail/index", //商家端-商品详情
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/reviseShop/index", //商家端-商品修改
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/shoppingManage/index", //商家端-优惠卷管理
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/storePage/page/discountRelease/index", //商家端-优惠卷发布
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/shoppingList/index", //商家端-商品展示
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "商品展示",
+				"navigationBarBackgroundColor": "#F5663C"
+			}
+		},
+		{
+			"path": "pages/storePage/page/shoppingAdd/index", //商家端-商品添加
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "商品添加",
+				"navigationBarBackgroundColor": "#F5663C"
+			}
+		},
+		{
+			"path": "pages/storePage/page/goodsForManage/index", //商家端-订单管理
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/storePage/page/orderDetails/index", //商家端-訂單詳情
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/storePage/page/exchangeRecords/index", //商家端-兌換記錄
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/storePage/page/exchangeRecordDetail/index", //商家端-兌換記錄详情
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/storePage/page/couponPage/index", //商家端-商家詳情
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/couponDetailPage/index", //商家端-优惠卷详情
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/verificationPage/index", //商家端-核销操作
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/storePage/page/verificationPage/verificationRecord/index", //商家端-核销記錄
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/lift/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/lift/index1",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/lift/index2",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// {
+		// 	"path": "pages/video/video", //视频首页
+		// 	"style": {
+		// 		"titleImage": "static/openPage/logo_red.png",
+		// 		// "navigationBarShadow": {
+		// 		// 	"colorType": "orange"
+		// 		// },
+		// 		"enablePullDownRefresh": true,
+		// 		"app-plus": {
+		// 			"titleNView": false
+		// 			// "titleNView": {
+		// 			// 	"backgroundColor": "#FFFFFF",
+		// 			// 	"buttons": [{
+		// 			// 		"fontSrc": "static/iconfont/iconfont.ttf",
+		// 			// 		"type": "none",
+		// 			// 		"color": "#303133",
+		// 			// 		"text": "\ue61e"
+		// 			// 	}]
+		// 			// }
+		// 		}
+		// 	}
+		// },
+		{
+			"path": "pages/video/video", //视频首页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/videoIndex", //视频首页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/homeIndex", //视频首页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/home", //视频首页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/smallVideo",//常规视频
+			"style": {
+				"app-plus": {
+					"titleNView":{
+						"type":"transparent"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/video/countdown", //视频上次加载界面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/videoEdit/index", //常规视频
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/editorBeautify", //视频编辑美化
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/vertical-swiper", //短视频
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/videoPreview", //视频预览
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/publicVideo", //发布短视频
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/video/waterMark", //常规视频
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/chat/chat",//聊吧首页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/chat/question",//我要提问
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/chat/search",//聊吧搜索页面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/chat/homePage",//聊吧第一页面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/chat/chatDetail",//聊吧详情页面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/chat/answer",//写回答页面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/me",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/question/index",//问吧界面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/showMsgList/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/lift/classify/classify", //生活-分类详情页
+			"style": {
+				"navigationBarTitleText": "分類"
+			}
+		},
+		{
+			"path": "pages/lift/convenience/conveniencePeople", //生活-便民详情页
+			"style": {
+				"navigationBarTitleText": "便民"
+			}
+		},
+
+		{
+			"path": "pages/lift/answerAndquestion/answerAndquestion", //生活-问答详情页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+
+		{
+			"path": "pages/lift/vote/vote", //生活-投票详情页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+
+		{
+			"path": "pages/myViedo/myVideo", //我的频道
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/index/detail/detail", //新闻详情页
+			"style": {
+				"app-plus": {
+
+				}
+			}
+		},
+		{
+			"path": "pages/getdatadetail/getdatadetail", //新闻详情页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/about/about", //关于页面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/setUp/setUp", //关于设置
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/idea/idea", //意见反馈
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "common/weathWebView", //天氣分享
+			"style": {
+				"transparentTitle": "auto",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent",
+						"buttons": [{
+							"type": "share"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "common/oilWebview", //加油模塊
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "參與活動"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/me/integrate/integrate", //积分规则
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/shoppingNumbers/shoppingNumbers", //積分商城
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/me/shoppingNumbers/index", //積分商城
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/me/shoppingNumbers/shoppingNumDetail/index", //兌換積分
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/me/collect/collect", //我的收藏页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/newsHistory/newsHistory", //我的收藏页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/shopNumDetailes/shopNumDetailes", //积分商城详情页
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/useCoupon/index", //优惠券使用页面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/myCheater/index", //我的优惠卷
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/me/useCheater/index", //兑换我的优惠卷
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/search/search", //搜索关键字
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/search/search1", //关键词搜索
+			"style": {
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					// "bounce":"none",//关闭反弹效果
+					"titleNView": {
+						"autoBackButton": false,
+						// 搜索框配置
+						"searchInput": {
+							"align": "left",
+							"backgroundColor": "#F7F7F7",
+							"borderRadius": "4px",
+							"placeholder": "搜索相關新聞",
+							"placeholderColor": "#CCCCCC",
+							"disabled": false
+						},
+						//配置按钮
+						"buttons": [
+							// 右边
+							{
+								"color": "#000000",
+								"colorPressed": "#BBBBBB",
+								"float": "right",
+								"fontSize": "16px",
+								"text": "取消"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/lift/mySearch/mySearch", //关键词搜索
+			"style": {
+				// "enablePullDownRefresh": true,
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					// "bounce":"none",//关闭反弹效果
+					"titleNView": {
+						"autoBackButton": false,
+						// 搜索框配置
+						"searchInput": {
+							"align": "left",
+							"backgroundColor": "#F7F7F7",
+							"borderRadius": "4px",
+							"placeholder": "搜索相關新聞",
+							"placeholderColor": "#CCCCCC",
+							"disabled": false
+						},
+						//配置按钮
+						"buttons": [
+							// 右边
+							{
+								"color": "#000000",
+								"colorPressed": "#BBBBBB",
+								"float": "right",
+								"fontSize": "16px",
+								"text": "取消"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/lift/keyWords/keyWords", //关键词搜索
+			"style": {
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					// "bounce":"none",//关闭反弹效果
+					"titleNView": {
+						"autoBackButton": false,
+						// 搜索框配置
+						"searchInput": {
+							"align": "left",
+							"backgroundColor": "#F7F7F7",
+							"borderRadius": "4px",
+							"placeholder": "搜索相關新聞",
+							"placeholderColor": "#CCCCCC",
+							"disabled": false
+						},
+						//配置按钮
+						"buttons": [
+							// 右边
+							{
+								"color": "#000000",
+								"colorPressed": "#BBBBBB",
+								"float": "right",
+								"fontSize": "16px",
+								"text": "取消"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "components/web-view/web-view",
+			"style": {}
+		},
+		{
+			"path": "pages/lift/contentDetail/contentDetail",
+			"style": {
+				"transparentTitle": "auto"
+			}
+		}, {
+			"path": "pages/me/register/register",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/register/register2",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/register/register2",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/lift/UrlDeatils/UrlDeatils",
+			"style": {}
+		}, {
+			"path": "pages/me/newUser/newUser",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/me/forgetPassword/forgetPassword",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/me/xieYi/xieYi",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "用戶協議",
+						"titleAlign": "center"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/me/privacy/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "隱私政策",
+						"titleAlign": "center"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/commit/commit",
+			"style": {
+				"navigationBarTitleText": "網友評論"
+			}
+		}, {
+			"path": "pages/me/editPersonal/editPersonal",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
+			"style": {
+				"navigationBarTitleText": "头像裁剪",
+				"navigationBarBackgroundColor": "#000000"
+			}
+		}, {
+			"path": "pages/me/editPersonal/editPhoneNumber",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/me/editPersonal/editPhoneNumber",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		//自媒体模块 -- 新闻列表
+		{
+			"path": "pages/media/newsList",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/media/mediaPersonal", //发布界面
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/media/infoFill",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+
+		},
+		{
+			"path": "pages/media/mediaWebView",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+
+		}
+	],
+	"globalStyle": {
+		"pageOrientation": "auto", //横屏配置
+		"navigationBarTextStyle": "black", //仅仅支持black/white导航栏标题颜色
+		"navigationBarTitleText": "", //导航栏标题文字内容
+		"navigationBarBackgroundColor": "#F8F8F8", //导航栏背景颜色
+		"backgroundColor": "#F8F8F8" //窗口的背景色
+	},
+	"tabBar": {
+		"color": "#666666",
+		"selectedColor": "#E07A76",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/index/home",
+				"text": "首頁",
+				"iconPath": "static/tabBarIco/index.png",
+				"selectedIconPath": "static/tabBarIco/activeIndex.png"
+			},
+			{
+				"pagePath": "pages/video/home",
+				"text": "視頻",
+				"iconPath": "static/tabBarIco/videos.png",
+				"selectedIconPath": "static/tabBarIco/activeVideos.png"
+			},
+			{
+				"pagePath": "pages/lift/index2",
+				"text": "生活",
+				"iconPath": "static/tabBarIco/life.png",
+				"selectedIconPath": "static/tabBarIco/activeLife.png"
+			},
+			// {
+			// 	"pagePath": "pages/chat/chat",
+			// 	"text": "聊吧",
+			// 	"iconPath": "static/tabBarIco/chatIcon.png",
+			// 	"selectedIconPath": "static/tabBarIco/chatIconActive.png"
+			// },
+			{
+				"pagePath": "pages/me/me",
+				"text": "我的",
+				"iconPath": "static/tabBarIco/mine.png",
+				"selectedIconPath": "static/tabBarIco/selectMine.png"
+			}
+		]
+	},
+	"condition": { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [{
+			"name": "", //模式名称
+			"path": "", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
+	}
+}

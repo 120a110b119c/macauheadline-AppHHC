@@ -1,0 +1,29 @@
+.page {
+	width: 100%;
+	height: 100%;
+}
+/* body{
+	overflow: hidden;
+} */
+/* flex布局 */
+.u-f,.u-f-ac,.u-f-ajc{
+	display: flex;
+}
+.u-f-ac,.u-f-ajc{
+	align-items: center;
+}
+.u-f-ajc{
+	justify-content: center;
+}
+.u-f-jsb{
+	justify-content: space-between;
+}
+.u-f-jsa{
+	justify-content: space-around;
+}
+.u-f1{
+	flex: 1;
+}
+.u-f-column{
+	flex-direction: column;
+}

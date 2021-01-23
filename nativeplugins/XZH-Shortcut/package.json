@@ -1,0 +1,21 @@
+{
+	"name": "XZH-Shortcut",
+	"id": "XZH-Shortcut",
+	"version": "1.0.0",
+	"description": "Android图标长按菜单",
+	"_dp_type": "nativeplugin",
+	"_dp_nativeplugin": {
+		"android": {
+			"plugins": [{
+				"type": "module",
+				"name": "XZH-Shortcut",
+				"class": "com.xzh.shortcuts.ShortcutsModule"
+			}],
+			"integrateType": "aar",
+			"compileOptions": { //可选，Java编译参数配置
+				"sourceCompatibility": "1.8",
+				"targetCompatibility": "1.8"
+			}
+		}
+	}
+}

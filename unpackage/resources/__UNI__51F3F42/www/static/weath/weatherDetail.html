@@ -1,0 +1,115 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title></title>
+        <style>
+            body,html,head,p,div,span{
+                margin: 0;
+                padding: 0;
+            }
+            .allBg{
+                width: 100vw;
+                height: 100vh;
+                background-size: cover;
+                color: white;
+                letter-spacing: 1px;
+                overflow: hidden;
+                background-repeat: no-repeat;
+                position: relative;
+				background-position: right;
+            }
+            .weather{
+                background-color: rgba(0, 0, 0, 0.3);
+                width: 35vw;
+                position: absolute;
+                top: 10vw;
+                left: 10vw;
+                text-align: center;
+                border-radius: 2vw;
+            }
+            .weaDate{
+                width: 100%;
+                height: 5.5vw;
+                font-size: 4vw;
+                line-height: 5.5vw;
+                margin: 3vw 0;
+            }
+            .weaDetail{
+                font-size: 5vw;
+                text-align: center;
+                position: relative;
+                margin: 3vw 0;
+                height: 7vw;
+            }
+            .weaDetail span{
+                font-size: 4.5vw;
+                margin-left: 1vw;
+            }
+            .weaWendu{
+                margin: 3vw 0;
+                width: 100%;
+                font-size: 3.8vw;
+            }
+            .weaWendu span{
+                font-size: 4.8vw;
+            }
+            .dayBibi{
+                position: absolute;
+                top: 88vh;
+                margin: 0 5vw ;
+                font-size: 4.2vw;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="allBg">
+            <div class="weather">
+                <p class="weaDate"></p>
+                <p class="weaDetail"></p>
+                <p class="weaWendu"></p>
+            </div>
+            <div class="dayBibi"></div>
+        </div>
+    </body>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        
+        $(function(){ 
+            var  time = new Date()
+            console.log(time)
+            var dataTime = formatData(time.getMonth())+'月' + formatData(time.getDate()) + '日'
+            var weekDay = ["週日","週一","週二","週三","週四","週五","週六"]
+            $('.weaDate').html(dataTime +'&nbsp;'+ weekDay[time.getDay()])
+            $.ajax({
+                type: 'POST',
+                url: 'http://2020.macaoheadline.com/m/action.ashx',
+                data: {
+                    action:'getweather'
+                },
+                headers: { 
+                        'Content-Type': 'application/x-www-form-urlencoded' 
+                },  
+                dataType: 'json',
+                success:(response)=>{
+                    console.log(response)
+                    $('.weaDetail').html(response.today.weather)
+                    //温度
+                    let weathHtml = '<span>'+response.sk.temp+'℃</span>'
+                    $('.weaWendu').html(weathHtml+' '+response.today.temperature) 
+                    //每日一语
+                    let dayBibi = response.today.today_keyword
+                    $('.dayBibi').html(dayBibi)
+                    let bgImg = response.pic_adv
+                    $('.allBg').css('background-image','url('+bgImg+')')
+                }
+                
+            })
+			
+        });
+        function formatData(value){
+            return (value > 0 && value < 10) ? '0' + value : value
+        }
+    
+    </script>
+</html>

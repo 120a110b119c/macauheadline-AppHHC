@@ -1,0 +1,153 @@
+<template>
+	<view class="videoWrap">
+		<scroll-view scroll-y="true" @scrolltoupper="searchHandleTop()"  @scrolltolower="searchHandleBottom()"  enable-flex="true">
+			<view  class="listWrap">
+				<view class="video-box" v-for="(item,index) in videoList" :key="item.DatId" @tap.stop="clickMask(item,index)">
+					<image style="width: 370rpx;height: 540rpx;" mode="aspectFill" :src="item.DatPic"></image>
+				</view>
+			</view>
+			<my-loading v-if="showLoading" style="margin-bottom: 20upx;"></my-loading>
+			<text v-if='!showLoading' class="noMoreData">{{endContent}}</text>
+		</scroll-view>
+	</view>
+</template>
+<script>
+	import myLoading from './components/my-loading.nvue'
+	import {
+		serverUrl
+	} from '@/utils/pathSetting/constPath.js'
+	export default { 
+		data() {
+			return {
+				videoList: [],
+				currPage: 1,
+				showLoading:false,
+				endContent:""
+			}
+		},
+		props: {
+			dataHidden: {
+				type: Boolean
+			}
+		},
+		watch: {
+			dataHidden(oldValue, newvalue) {
+				this.videoList = [];
+				this.endContent = '';
+				this.pushVideoList();
+			}
+		},
+		components:{
+			myLoading
+		},
+		created() {
+			this.pushVideoList();
+		},
+		methods: {
+			searchHandleTop(){
+				this.videoList = [];
+				this.currPage = 1;
+				this.pushVideoList();
+			},
+			clickMask(itemObj, newVal) {
+				if (itemObj.DatIsSVideo) {
+					uni.navigateTo({
+						url: "./smallVideo?itemObj=" + encodeURIComponent(JSON.stringify(itemObj))
+					})
+				}
+			},
+			searchHandleBottom() {
+				this.showLoading = true;
+				this.currPage  = this.currPage + 1;
+				this.pushVideoList();
+			},
+			pushVideoList() {
+				const _this = this;
+				uni.request({
+					url: serverUrl,
+					dataType: 'json', //默认 json格式
+					data: {
+						"action": "getheadline",
+						"page": this.currPage,
+						"dataType": "video",
+						"mdlId": '-1'
+					},
+					success: (res) => {
+						if (res.data.result != "suc") {
+							if (res.data.msg == '没有更多数据') {
+								this.showLoading = false
+								this.endContent = "没有更多数据"
+								return;
+							}
+						}
+						_this.showLoading = false;
+						let videoGroup = [];
+						res.data.data.forEach(item=>{
+						    videoGroup.push({
+						    	src: item.DatVideo,
+						    	content: item.DatTitleFT,
+						    	flag: false,
+						    	DatTitle: item.DatTitleFT,
+						    	DatPic: item.DatPic,
+						    	like: '7w',
+						    	comment: '1045',
+						    	duration: 0,
+						    	DatIsSVideo: item.DatIsSVideo,
+						    	DatAutherFT: item.DatAutherFT,
+						    	DatShowDate: item.DatShowDate,
+						    	DatId: item.DatId,
+						    	DatUsrId: item.DatUsrId,
+						    	DatReplies: item.DatReplies,
+						    	DatZan: item.DatZan
+						    })
+						})
+						// for (let item of res.data.data) {
+						// 	videoGroup.push({
+						// 		src: item.DatVideo,
+						// 		content: item.DatTitleFT,
+						// 		flag: false,
+						// 		DatTitle: item.DatTitleFT,
+						// 		DatPic: item.DatPic,
+						// 		like: '7w',
+						// 		comment: '1045',
+						// 		duration: 0,
+						// 		DatIsSVideo: item.DatIsSVideo,
+						// 		DatAutherFT: item.DatAutherFT,
+						// 		DatShowDate: item.DatShowDate,
+						// 		DatId: item.DatId,
+						// 		DatUsrId: item.DatUsrId,
+						// 		DatReplies: item.DatReplies,
+						// 		DatZan: item.DatZan
+						// 	})
+						// }
+						this.videoList.push.apply(this.videoList,videoGroup);
+					}
+				})
+			}
+		}
+	}
+</script>
+<style scoped>
+	.videoWrap {
+		width: 750rpx;
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	
+	.listWrap{
+		width: 750rpx;
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	
+	.video-box {
+		width: 370rpx;
+		height: 550rpx;
+	}
+	
+	.noMoreData{
+		text-align: center;
+	}
+</style>

@@ -1,0 +1,166 @@
+.page {
+	width: 100%;
+	height: 100%;
+}
+
+.newsList-wrap {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+/*列表样式 start*/
+
+/*列表公共部分样式 start*/
+.listContent{
+	margin: 40upx;
+	padding-bottom: 40upx;
+	border-bottom: 1upx solid #ebebeb;
+	box-sizing: border-box;
+}
+/*SevAddr(地址) start*/
+.SevAddr{
+	display: flex;
+	flex-direction: row;
+	margin-top: 20upx;
+	line-height: 30upx;
+	
+}
+.SevAddr>.icon{
+	font-size: 40upx;
+}
+.SevAddr>.address{
+	color: #666;
+	font-size: 26upx;
+}
+/*列表公共部分样式 end*/
+/*SevAddr(地址) end*/
+/*三种情况(图片,信息，电话)样式:style1 start*/
+/*头部 start*/
+.listThree_header{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+}
+.listThree_header>.listThree_title{
+	color: #000;
+	font-weight: bold;
+	font-size: 36upx;
+}
+.listThree_header>.listThree_area{
+	text-align: right;
+	line-height: 60upx;
+}
+/*头部 end*/
+/*内容 start*/
+.listThree_content{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	margin-top: 10upx;
+}
+.listThree_content_left{
+	display: flex;
+	flex-direction: row;
+}
+.listThree_content image{
+	margin-top: 16upx;
+	width: 60upx;
+	height: 60upx;
+	border-radius: 50%;
+}
+.content_info{
+	margin-left: 20upx;
+}
+.content_info>.info_SevContact{
+	font-size: 32upx;
+	margin-bottom: 4upx;
+	color: #343434;
+}
+.content_info>.info_SevCompany{
+	font-size: 24upx;
+	color: #666666;
+}
+.content_phone{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 40upx;
+	width: 70upx;
+	height: 70upx;
+	border-radius: 50%;
+	border: 2upx solid #1bb1d6;
+	color: #1bb1d6;
+	text-decoration: none;
+}
+.content_phone>.icon{
+	font-size: 40upx;
+}
+/*内容 end*/
+/*三种情况样式 end*/
+
+/*两种种情况(图片,信息)样式:style2 start*/
+.listTwo_two_content{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+.listTwo_two_content image{
+	width: 250upx;
+	height: 180upx;
+	border-radius: 20upx;
+}
+.listTwo_two_info{
+	padding-left: 10upx;
+	height: 180upx;
+	box-sizing: border-box;
+}
+.listTwo_two_info>.title{
+	font-size: 30upx;
+	color: #000;
+	font-weight: bold;
+	line-height: 34upx;
+}
+.listTwo_two_info>.SevContact,
+.listTwo_two_info>.SevCompany{
+	line-height: 40upx;
+}
+.listTwo_two_info>.SevContact{
+	margin-top: 20upx;
+	font-size: 30upx;
+	color: #666;
+}
+.listTwo_two_info>.SevCompany{
+	margin-top: 10upx;
+	color: #666;
+	font-size: 28upx;
+	height: 42%;
+}
+/*两种种情况(图片,信息)样式:style2 end*/
+
+/*两种种情况(图片,信息)样式:style3 start*/
+.listThree_three_info{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.listThree_three_info image{
+	width: 250upx;
+	height: 180upx;
+}
+/*两种种情况(图片,信息)样式:style3 end*/
+/*列表样式 end*/
+
+.loading-text {
+	height: 80upx;
+	line-height: 80upx;
+	font-size: 30upx;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}

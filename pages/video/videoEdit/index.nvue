@@ -1,0 +1,71 @@
+<template>
+	<div>
+		<videoEditInfo :pageHide="false" :videoPath="videoPath" @getResult="getResult" v-if="isShow"></videoEditInfo>
+	</div>
+</template>
+
+<script>
+	import videoEditInfo from './videoEdit.nvue'
+	export default {
+		components: {
+			videoEditInfo
+		},
+		props: ['params'],
+		data(){
+			return {
+				isShow: true,
+				videoInfo: {},
+				videoPath: '',
+			}
+		},
+		onShow() {
+			if(uni.getStorageSync('videoUrl')){
+				this.videoPath = uni.getStorageSync('videoUrl');
+				console.log('this.videoPath',this.videoPath)
+			}
+		},
+		methods: {
+			getResult(res){
+				if(res.videoPath) this.videoInfo.videoPath = res.videoPath;
+				this.isShow = false;
+				this.$emit('finish',{...this.videoInfo,...res});
+			},
+			startRecored(){
+				const plug = uni.requireNativePlugin('Hs-ShortVideo')
+				let t = 60;
+				console.log(11111)
+				plug.startRecored({
+					"ptdata": this.params.ptdata || '',
+					"maxDuration": this.params.maxDuration || t,
+					"minDuration": this.params.minDuration || 5,
+					"setTip": this.params.setTip || `拍摄${t}秒`
+				},res=>{
+					console.log(res)
+					if(res.code && res.code == 1001){
+						console.log('放弃拍摄')
+						return ;
+					}else if(res.video){
+						this.isShow = true;
+						let obj = res.video;
+						let result={
+							ptdata: this.params.ptdata||'',
+							videoPath: 'file://' + obj.videoPath,	//视频路径	String
+							cover: 'file://' + obj.cover || '',	//封面路径	String	
+							duration: obj.duration || '',	//视频时长,单位为秒,视频时长通常不会少于最短录制时间	int	
+							width: obj.width || '',	//视频分辨率宽度	int	
+							height: obj.height || '',	//视频分辨率高度	int	
+							type: obj.type || '',	//视频是拍摄还是导入的，1.拍摄 2.导入	int	
+							length: obj.length || '',	//视频文件大小，单位为字节	long
+						}
+						this.videoPath = result.videoPath;
+						this.videoInfo = result;
+					}
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>

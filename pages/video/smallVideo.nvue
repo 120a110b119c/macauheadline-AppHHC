@@ -1,0 +1,581 @@
+<template>
+	<view class="container">
+		<!-- <view class="icon iconfont icon-zuojiantou"></view> -->
+		<list @loadmore="getData()" :loadmoreoffset="wHeight*3" :show-scrollbar="false" ref="listBox"
+		 :pagingEnabled="true" :scrollable="true">
+			<cell v-for="(item,i) in dataList" :key="i">
+				<div class="item" :style="boxStyle">
+					<jVideo v-if="Math.abs(k-i)<=1" :state="item.state" :src="item.src" :boxStyle="boxStyle"></jVideo>
+					<view class="videoHover" v-if="1" @click="tapVideoHover(item.state,$event)" :style="boxStyle">
+						<image v-if="item.state=='pause'" class="playState" src="../../static/video/play.png"></image>
+					</view>
+					<view class="userInfo" @appear="k=i">
+						<image class="userAvatar" :src="item.videoImg"></image>
+						<view class="like" @click="cLike(item);item.like = !item.like">
+							<image v-if="item.like" class="likeIco" src="../../static/video/xinActive.png" />
+							<image v-else class="likeIco" src="../../static/video/xin.png" />
+							<text class="likeNum" :class="{'likeNumActive':item.like}">{{parseInt(item.DatZan)}}</text>
+						</view>
+						<view class="comment" @click="toComment(i)">
+							<image class="commentIco" src="../../static/video/comment.png"></image>
+							<text style="color: #FFFFFF;">{{item.DatReplies}}</text>
+						</view>
+						<view class="share" @click="share('share')">
+							<image class="shareIco" src="../../static/video/share.png"></image>
+							<text class="shareTex">分享</text>
+						</view>
+					</view>
+					<view class="content">
+						<text class="userName">{{item.title}}</text>
+					</view>
+				</div>
+				<view v-if="discussWrap">
+					<view class="more-share-model" @click="discussHandle()"></view>
+					<view class="textWrap" @click="textWrapHandle()">
+						<view class="titleText">
+							<view></view>
+							<view v-if="imageList.length == 0">暫無評論</view>
+							<view v-else>有{{imageList.length}}条评论</view>
+							<image style="width: 60upx;height: 60upx;position: relative;z-indx:10000" src="../../static/videoIcon/deleteIamge.png"
+							 mode="aspectFill"  @click.self="closeHandle"></image>
+						</view>
+						<view class="userText">
+							<view style="flex-direction: row;width: 360%;align-items: center;margin-bottom: 10upx;" v-for="(i,index) in imageList"
+							 :key="index">
+								<image style="align-items: flex-start; width: 30px;height: 30px;border-radius:100upx;" :src="item.videoImg"></image>
+								<text style="width: 600upx;word-break: break-all;margin-left: 20upx;">{{i.DdsContent}}</text>
+							</view>
+						</view>
+						<view class="bottomInput">
+							<input type="text" @confirm="onSearchConfirm" confirm-type="send" v-model="inputValue" placeholder="请输入你的评论" />
+						</view>
+					</view>
+				</view>
+			</cell>
+		</list>
+	</view>
+</template>
+<script>
+	import {
+		serverUrl
+	} from '@/utils/pathSetting/constPath.js'
+	import {
+		appendUserIntegral,
+		mobAppKey,
+		mobSecret
+	} from '@/utils/index.js'
+	const dom = weex.requireModule('dom');
+	const BindingX = uni.requireNativePlugin('bindingx');
+	import jVideo from './components/j-video.nvue';
+	export default {
+		components: {
+			jVideo
+		},
+		data() {
+			return {
+				discussWrap: false,
+				currentPage: 1,
+				dataList: [],
+				wHeight: 0,
+				boxStyle: {
+					'height': 0,
+					'width': '750upx',
+				},
+				k: 0,
+				indexNumbers: 3,
+				playIngIds: [],
+				ready: false,
+				videoId: '',
+				verticalScreen: true,
+				activeTop: false,
+				scrollable: true,
+				show_pop: true,
+				title: 'share',
+				shareText: '歡迎使用澳門頭條app',
+				href: "https://uniapp.dcloud.io",
+				image: '',
+				shareType: 1,
+				providerList: [],
+				newsItem: {},
+				platform: '',
+				imageList: [],
+				inputValue: ""
+			}
+		},
+		watch: {
+			k(k, old_k) {
+				this.dataList[k].state = 'play'
+				this.dataList[old_k].state = 'stop'
+			}
+		},
+		onLoad(option) {
+			const item = JSON.parse(decodeURIComponent(option.itemObj));
+			this.dataList = [];
+			this.dataList.push({
+				src: item.src,
+				title: item.DatTitle,
+				videoImg: item.DatPic,
+				state: 'pause',
+				like: 30,
+				like_n: 90,
+				videoId: item.DatId,
+				userId: item.DatUsrId,
+				DatReplies: item.DatReplies,
+				DatZan: item.DatZan
+			})
+			this.ready = true;
+			this.videoId = item.DatId;
+			this.getData(e => {
+				this.dataList[0].state = 'play';
+			});
+		},
+		onShow() {
+			const _this = this;
+			this.wHeight = uni.getSystemInfoSync().windowHeight;
+			this.boxStyle.height = this.wHeight;
+		},
+		onShareAppMessage() {
+			return {
+				title: this.shareText ? this.shareText : "歡迎使用澳門頭條app",
+				path: '/pages/tabBar/component/component',
+				imageUrl: this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
+			}
+		},
+		methods: {
+			getNewTextList() {
+				let url = serverUrl;
+				const video = this.dataList[this.k];
+				let videoId = video.videoId;
+				let me = this;
+				uni.request({
+					url: url,
+					dataType: 'json', //默认 json格式
+					data: {
+						"action": "getdiscuss",
+						"datId": video.videoId,
+						"page": 1
+					},
+					success: (res) => {
+						if (res.data.result == 'suc') {
+							me.imageList = res.data.data;
+						} else {
+							me.imageList = [];
+						}
+					}
+				});
+			},
+			onSearchConfirm(e) {
+				let url = serverUrl;
+				const video = this.dataList[this.k];
+				let videoId = video.videoId;
+				let userId = video.userId;
+				uni.request({
+					url: url,
+					dataType: 'json', //默认 json格式
+					data: {
+						"action": "savediscuss",
+						"datId": videoId,
+						"usrId": userId,
+						"content": encodeURIComponent(this.inputValue)
+					},
+					success: (res) => {
+						if (res.data.result == 'suc') {
+							uni.showToast({
+								title: '评论成功',
+								icon: 'none',
+								position: "bottom"
+							})
+							this.imageList.push({
+								DdsContent: e.detail.value
+							})
+						}
+					}
+				});
+				this.inputValue = '';
+			},
+			discussHandle() {
+				this.discussWrap = false
+			},
+			textWrapHandle(){
+				this.discussWrap = true
+			},
+			cussHandle(){
+				this.discussWrap = true
+			},
+			closeHandle(event){
+				event.stopPropagation();
+				this.discussWrap = false;
+			},
+			toComment() {
+				this.imageList = [];
+				this.getNewTextList();
+				this.discussWrap = true;
+			},
+			compress() { //压缩图片 图文分享要求分享图片大小不能超过20Kb
+				let img = this.image;
+				return new Promise((res) => {
+					var localPath = plus.io.convertAbsoluteFileSystem(img.replace('file://', ''));
+					// 压缩size
+					plus.io.resolveLocalFileSystemURL(localPath, (entry) => {
+						entry.file((file) => { // 可通过entry对象操作图片 
+							if (file.size > 20480) { // 压缩后size 大于20Kb
+								plus.zip.compressImage({
+									src: img,
+									dst: img.replace('.jpg', '2222.jpg').replace('.JPG', '2222.JPG'),
+									width: '10%',
+									height: '10%',
+									quality: 1,
+									overwrite: true
+								}, (event) => {
+									let newImg = img.replace('.jpg', '2222.jpg').replace('.JPG', '2222.JPG');
+									res(newImg);
+								}, function(error) {
+									uni.showModal({
+										content: '分享图片太大,需要请重新选择图片!',
+										showCancel: false
+									})
+								});
+							}
+						});
+					}, (e) => {
+						uni.showModal({
+							content: '分享图片太大,需要请重新选择图片!',
+							showCancel: false
+						})
+					});
+				})
+			},
+			share(type) {
+				const video = this.dataList[this.k];
+				var textTitle = video.title;
+				var srcHref = video.src
+				var src = video.videoImg;
+				const videoId = video.videoId;
+				if (type == "share") {
+					uni.showActionSheet({
+						itemList: ['分享到微信朋友圈', '转发给微信好友'],
+						success: function(res) {
+							var cScene = "";
+							if (res.tapIndex == 0) {
+								cScene = "WXSenceTimeline";
+							} else if (res.tapIndex == 1) {
+								cScene = "WXSceneSession";
+							}
+							uni.share({
+								provider: "weixin",
+								scene: cScene,
+								type: 0,
+								href: 'http://2020.macaoheadline.com/m/share.html?id='+videoId,
+								title: '每日好剧',
+								summary: '每日好剧',
+								imageUrl: src,
+								success: function(res) {
+									console.log("分享成功！");
+								},
+								fail: function(err) {
+									uni.showToast({
+										"title": "分享失败:" + JSON.stringify(err),
+										"icon": "none",
+										"duration": 2000
+									});
+								}
+							});
+						},
+						fail: function(res) {
+							console.log('999');
+							console.log(res.errMsg);
+						}
+					});
+				}
+			},
+			//点赞
+			cLike({
+				videoId,
+				userId,
+				like
+			}) {
+				let url = serverUrl;
+				if (like) {
+					uni.request({
+						url: url,
+						dataType: 'json', //默认 json格式
+						data: {
+							"action": "cancelfav",
+							"type": "0",
+							"datId": videoId,
+							"usrId": userId
+						},
+						success: (res) => {
+							if (res.data.result == 'suc') {
+								uni.showToast({
+									icon: 'none',
+									title: '取消点赞'
+								})
+							} else {
+								uni.showToast({
+									title: "報錯:" + data,
+									icon: 'none'
+								})
+							}
+						}
+					});
+				} else {
+					uni.request({
+						url: url,
+						dataType: 'json', //默认 json格式
+						data: {
+							"action": "savefav",
+							"type": "0",
+							"datId": videoId,
+							"usrId": userId
+						},
+						success: (res) => {
+							if (res.data.result == 'suc') {
+								uni.showToast({
+									icon: 'none',
+									title: '点赞成功'
+								})
+							} else {
+								uni.showToast({
+									title: "報錯:" + data,
+									icon: 'none'
+								})
+							}
+						}
+					});
+				}
+				const video = this.dataList[this.k];
+				let DatZan = parseInt(video.DatZan);
+				like ? DatZan -= 1 : DatZan += 1;
+				console.log('video',video,DatZan);
+			},
+			//点击播放&&暂停
+			tapVideoHover(state, event) {
+				if (state == 'play' || state == 'continue') {
+					this.dataList[this.k].state = 'pause';
+				} else {
+					this.dataList[this.k].state = 'continue';
+				}
+			},
+			getData(callback = e => {}) {
+				let url = serverUrl;
+				let videoIdData = this.videoId;
+				let page = this.currentPage;
+				uni.request({
+					url: url,
+					dataType: 'json', //默认 json格式
+					data: {
+						"action": "getheadline",
+						"page": page,
+						"dataType": "svideo"
+					},
+					success: (res) => {
+						if (res.data.result == 'suc') {
+							this.currentPage++;
+							let obj = res.data.data;
+							this.videoId = obj[obj.length - 1].DatId;
+							res.data.data.forEach((item, i) => {
+								this.dataList.push({
+									src: item.DatVideo,
+									title: item.DatTitleFT,
+									videoImg: item.DatPic,
+									state: 'pause',
+									like: i % 2 > 0,
+									like_n: i,
+									videoId: item.DatId,
+									userId: item.DatUsrId,
+									DatReplies: item.DatReplies,
+									DatZan: item.DatZan
+								})
+							})
+							setTimeout(e => {
+								callback()
+							}, 0);
+						} else {
+							uni.showToast({
+								title: "報錯:" + data,
+								icon: 'none'
+							})
+						}
+					}
+				});
+			}
+		}
+	}
+</script>
+<style scoped>
+	.titleText {
+		position: absolute;
+		top: 10upx;
+		left: 0;
+		padding: 20upx;
+		width: 360%;
+		height: 100upx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		color: #fff;
+	}
+
+	.icon-shanchu {
+		color: #000;
+		width: 100upx;
+		height: 100upx;
+	}
+
+	@keyframes move {
+		0% {
+			transform: translateY(0upx);
+		}
+
+		100% {
+			transform: translateY(380upx);
+		}
+	}
+
+	.userText {
+		position: absolute;
+		top: 130upx;
+		left: 0;
+		padding-left: 20upx;
+	}
+
+
+	.bottomInput {
+		position: absolute;
+		bottom: 50upx;
+		left: 0;
+		width: 300%;
+		padding: 10upx;
+		margin-left: 50upx;
+		border-style: solid;
+		border-width: 4upx;
+		border-color: #000000;
+		border-radius: 100upx;
+	}
+
+
+	.more-share-model {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 750rpx;
+		height: 650%;
+		z-index: 100;
+		background-color: rgba(0, 0, 0, 0.6);
+	}
+
+	.textWrap {
+		position: fixed;
+		top: 250upx;
+		left: 0;
+		z-index: 300;
+		width: 750rpx;
+		height: 650%;
+		background-color: #FFFFFF;
+		border-radius: 30%;
+	}
+	.playState {
+		justify-content: center;
+		align-items: center;
+		width: 80upx;
+		height: 80upx;
+	}
+
+	.container {
+		flex: 1;
+		background-color: #eeeeee;
+	}
+
+	.item {
+		width: 750upx;
+		background-color: #000000;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+
+	.videoHover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		/* flex: 1; */
+		background-color: rgba(0, 0, 0, 0.1);
+		justify-content: center;
+		align-items: center;
+	}
+
+	.noData {
+		width: 100upx;
+		height: 100upx;
+	}
+
+	.userInfo {
+		position: absolute;
+		bottom: 250upx;
+		right: 15px;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+
+	}
+
+	.userAvatar {
+		border-radius: 500%;
+		margin-bottom: 15px;
+		border-style: solid;
+		border-width: 2px;
+		border-color: #ffffff;
+		width: 50upx;
+		height: 50upx;
+	}
+
+	.userAvatar {
+		width: 90upx;
+		height: 90upx;
+	}
+
+	.likeIco,
+	.shareIco,
+	.commentIco {
+		width: 60upx;
+		height: 60upx;
+		margin-top: 15px;
+	}
+
+	.likeNum,
+	.commentNum,
+	.shareTex {
+		color: #ffffff;
+		font-size: 30upx;
+		text-align: center;
+		margin: 5px;
+	}
+
+	.likeNumActive {
+		color: red;
+	}
+
+	.content {
+		width: 720upx;
+		z-index: 99;
+		position: absolute;
+		bottom: 50upx;
+		justify-content: center;
+		padding: 15upx;
+		flex-direction: column;
+		justify-content: flex-start;
+		color: #ffffff;
+	}
+
+	.userName {
+		font-size: 30upx;
+		color: #ffffff;
+	}
+
+	.words {
+		margin-top: 10upx;
+		font-size: 30upx;
+		color: #ffffff;
+	}
+</style>
